@@ -4,14 +4,14 @@ Last updated: 10 November 2026
 
 ravenwatch-lite is a free, open-source plugin for Claude Code, made by Nanna Karoliina ("I", "me"). This policy explains what happens to your data when you use it.
 
-**Short version: ravenwatch-lite collects nothing. It has no server, no account, no analytics and no telemetry. It is a set of instructions and agents that run inside Claude Code on your machine. The code it reviews is read by Claude, so it goes to Anthropic like any code you ask Claude to read. The only files it writes are review reports in your system's temporary folder and, if you ask for one, the project brief in your repository.**
+**Short version: ravenwatch-lite collects nothing. It has no server, no account, no analytics and no telemetry. It is a set of instructions and agents that run inside Claude Code on your machine. The code it reviews is read by Claude, so it goes to Anthropic like any code you ask Claude to read. The only files it writes are review reports and copies of your project brief in your system's temporary folder and, if you ask for one, the project brief in your repository.**
 
 ## What ravenwatch-lite does with your data
 
 ravenwatch-lite reviews code in a git repository you choose. To do that, Claude:
 
 - reads your repository's files and commits on your machine with read-only `git` commands, and reviews diffs, file contents and commit subjects;
-- writes each review report, and a copy of the project brief you confirmed for that review, to a private `ravenwatch-*` folder (readable only by you, with a random name) in your system's temporary folder (`$TMPDIR` on macOS, usually `/tmp` on Linux);
+- writes each review report, and a copy of the project brief taken before you're asked to confirm it, to a private `ravenwatch-*` folder (readable only by you, with a random name) in your system's temporary folder (`$TMPDIR` on macOS, usually `/tmp` on Linux);
 - runs the check commands (tests, type checks, linters) from your project brief, but only the ones you pick for that review;
 - runs `gitleaks` and `osv-scanner` only if you already have them installed.
 
