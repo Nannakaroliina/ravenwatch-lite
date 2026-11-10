@@ -1,0 +1,14 @@
+{
+  "name": "ravenwatch-lite",
+  "description": "Pre-push code review for solo developers.",
+  "owner": {
+    "name": "Nanna Karoliina"
+  },
+  "plugins": [
+    {
+      "name": "ravenwatch-lite",
+      "source": ".",
+      "description": "Specialist agents review your unpushed commits for bugs, loopholes and security issues, plus blast radius, privacy, UX, tests and design; a verifier filters out false alarms."
+    }
+  ]
+}

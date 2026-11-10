@@ -1,0 +1,28 @@
+{
+  "name": "ravenwatch-lite",
+  "version": "0.1.0",
+  "description": "Pre-push code review for solo developers: specialist agents hunt for bugs, loopholes and security issues in your unpushed commits and check blast radius, privacy, UX, tests and design; a skeptical verifier filters out false alarms before you get a PASS, WARN or BLOCK verdict.",
+  "author": {
+    "name": "Nanna Karoliina"
+  },
+  "license": "MIT",
+  "keywords": [
+    "code-review",
+    "security",
+    "pre-push",
+    "git",
+    "bugs",
+    "secrets",
+    "ux",
+    "accessibility",
+    "testing",
+    "privacy",
+    "gdpr"
+  ],
+  "homepage": "https://github.com/Nannakaroliina/ravenwatch-lite",
+  "repository": "https://github.com/Nannakaroliina/ravenwatch-lite",
+  "documentationUrl": "https://github.com/Nannakaroliina/ravenwatch-lite#readme",
+  "supportUrl": "https://github.com/Nannakaroliina/ravenwatch-lite/issues",
+  "privacyPolicyUrl": "https://github.com/Nannakaroliina/ravenwatch-lite/blob/main/PRIVACY.md",
+  "icon": "./assets/icon.png"
+}
