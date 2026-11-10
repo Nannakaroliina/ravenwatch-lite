@@ -11,7 +11,8 @@ First release of the lite edition, made from [ravenwatch](https://github.com/Nan
 - Without an upstream, the range is measured against the default branch of the remote the branch pushes to; if that doesn't settle it, the review asks you. It never measures against all remote refs, so commits fetched from a fork are still reviewed and a merged-in main isn't.
 - The brief is shown in full and confirmed on the first review in each Claude session and whenever its bytes change (`hash-object --no-filters`), including a brief that came with a clone or pull.
 - Every agent, the verifier included, reads files with uncommitted changes at HEAD (`git show 'HEAD:<path>'`); `--worktree` lists every untracked file and runs gitleaks on just the changed files.
-- Per-commit and secret sweeps include what was changed while resolving merges (`--diff-merges=remerge`), without counting a merged-in branch's own changes.
-- Git commands run against the repository root, with refs and paths single-quoted.
+- Per-commit and secret sweeps include what was changed while resolving merges, octopus merges included (`--cc`, as in the full edition).
+- The push remote comes from git itself (`%(push:remotename)`).
+- Git commands, the agents' included, run against the repository root, with refs and paths single-quoted (`'` written as `'\''`). The brief is always read from disk, the version you confirmed.
 - Reports go to a private `mktemp -d` folder. `--previous <report>` has the verifier check earlier blocking findings that weren't accepted.
 - The brief template no longer suggests commands that download packages (`npx --no-install`); supply-chain-auditor checks a repository's `osv-scanner.toml`.
