@@ -13,7 +13,7 @@ allowed-tools: Read, Grep, Glob
 
 The brief is a short Markdown file, `.ravenwatch.md`, at the repository root. Every reviewer reads it, so it cuts false alarms and repeated findings. Its frontmatter can list **checks**: the owner's own commands (tests, type checks, linters) that the review offers to run and treats as hard evidence.
 
-The brief can skip reviewers, accept risks and name commands to run, so the owner must see and confirm every part of it. Never write content the owner didn't confirm, and never present confirmation as a formality. `/ravenwatch-lite:review` asks the owner again whenever the brief changes in the commits it reviews, and asks before running any check.
+The brief can skip reviewers, accept risks and name commands to run, so the owner must see and confirm every part of it. Never write content the owner didn't confirm, and never present confirmation as a formality. `/ravenwatch-lite:review` also shows the whole brief and asks the owner to confirm it on the first review in each Claude session (and again whenever it changes), and asks before running any check.
 
 Arguments received: `$ARGUMENTS`
 
@@ -27,6 +27,7 @@ Arguments received: `$ARGUMENTS`
    - They must not deploy, publish, migrate a real database, push, send email, or call paid services. Leave out anything that touches production. Say why if you leave a script out.
    - Mark a check `blocking: true` only if its failure means the code is broken (tests, type check). Lint and formatting are usually `blocking: false`.
    - Never invent a command the project doesn't have; if there are no tests, say so.
+   - Never draft a command that downloads and runs a package: `npx` or `npm exec` without `--no-install`, `pnpm dlx`, `yarn dlx`, `bunx`, `uvx`, `pipx run`, `go run <pkg>@<version>`. Checks run non-interactively, where `npx` installs a missing package without asking (and `npx tsc` installs an unrelated package named `tsc`). Use the project's scripts or its installed binaries, e.g. `npx --no-install tsc --noEmit`.
 4. Look for what the app does and who uses it: README, routes, page titles, `wrangler.toml`/IaC (what is deployed and where), forms and fields (what personal data it collects), outside services it calls (email, payments, analytics, AI APIs).
 
 ## 2. Ask the owner (one round, AskUserQuestion)
@@ -52,7 +53,7 @@ checks:
     timeout: 600
     blocking: true
   - name: types
-    run: npx tsc --noEmit
+    run: npx --no-install tsc --noEmit
     blocking: true
   - name: lint
     run: npm run lint

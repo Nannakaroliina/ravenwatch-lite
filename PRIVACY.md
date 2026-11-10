@@ -11,7 +11,7 @@ ravenwatch-lite is a free, open-source plugin for Claude Code, made by Nanna Kar
 ravenwatch-lite reviews code in a git repository you choose. To do that, Claude:
 
 - reads your repository's files and commits on your machine with read-only `git` commands, and reviews diffs, file contents and commit subjects;
-- writes each review report to a Markdown file named `ravenwatch-<repository>-<commit>.md` in your system's temporary folder (`$TMPDIR` on macOS, usually `/tmp` on Linux);
+- writes each review report to a Markdown file in a private `ravenwatch-*` folder (readable only by you, with a random name) in your system's temporary folder (`$TMPDIR` on macOS, usually `/tmp` on Linux);
 - runs the check commands (tests, type checks, linters) from your project brief, but only the ones you pick for that review;
 - runs `gitleaks` and `osv-scanner` only if you already have them installed.
 
@@ -35,7 +35,7 @@ Your repository may contain personal data, for example names or emails in code, 
 
 ## Deleting your data
 
-- Delete the `ravenwatch-*.md` files in your system's temporary folder to remove review reports. Most systems also clear that folder on their own.
+- Delete the `ravenwatch-*` folders in your system's temporary folder to remove review reports. Most systems also clear that folder on their own.
 - Delete `.ravenwatch.md` if you no longer want the project brief.
 - Uninstalling the plugin from Claude Code removes the plugin itself.
 

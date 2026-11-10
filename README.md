@@ -42,14 +42,14 @@ This is the lite edition of [ravenwatch](https://github.com/Nannakaroliina/raven
    │
    ├─ 5. verdict      BLOCK (critical/high) · WARN (medium) · PASS
    │
-   └─ 6. report       short summary in chat, full report in your temporary folder
+   └─ 6. report       short summary in chat, full report in a private folder in your temporary folder
 ```
 
 ## Components
 
 | Component | What it does |
 |---|---|
-| `/ravenwatch-lite:review` | Runs the review. Arguments: none (unpushed commits), `--base <ref>`, `--worktree` (uncommitted changes), `--full` (audit the whole repository at HEAD, not just what changed). Add `--quick` to any of these to run only the core reviewers. |
+| `/ravenwatch-lite:review` | Runs the review. Arguments: none (unpushed commits, measured against the upstream or the remote's default branch), `--base <ref>`, `--worktree` (uncommitted changes), `--full` (audit the whole repository at HEAD, not just what changed). Add `--quick` to any of these to run only the core reviewers, and `--previous <report>` after a BLOCK so the verifier checks each earlier blocking finding is fixed. |
 | `/ravenwatch-lite:init-brief` | Drafts the project brief from your repo (stack, commands, routes, data), asks you a few questions, and has you confirm it. `--update` edits an existing brief, for example to accept a risk permanently. |
 | 12 agents | The eleven specialists above plus `finding-verifier`. All are read-only and never run your code. Only the brief's checks run code, and only the ones you pick each time. |
 
@@ -92,11 +92,9 @@ skip: []            # optional: impact-analyzer, ux-reviewer, test-reviewer, des
 - WINTER discount code is public on purpose (marketing), public/book.js — 2026-10-27
 ```
 
-The brief can skip reviewers, accept risks and name commands, so you confirm it whenever it changes. `init-brief` shows you every check command, skipped reviewer and accepted risk before you confirm it. A review asks you again when the commits it reviews (or your uncommitted changes) touch the brief. Before running checks, a review always asks which ones to run and quotes each command exactly. Checks run the committed code at HEAD with your permissions and `CI=1`. They need a clean working tree. Only pick commands you'd run yourself. Accepted risks only cover the specific issue and place they name, never CRITICAL findings or leaked credentials.
+The brief can skip reviewers, accept risks and name commands, so nothing in it counts until you confirm it. `init-brief` shows you every check command, skipped reviewer and accepted risk before you confirm it. Because this edition stores no approval, a review also shows you the whole brief and asks you to confirm it on the first review in each Claude session and whenever it changes. That covers a brief that arrived with a clone or a pull, too. Before running checks, a review always asks which ones to run and quotes each command exactly. Checks run the committed code at HEAD with your permissions and `CI=1`. They need a clean working tree. Only pick commands you'd run yourself. Accepted risks only cover the specific issue and place they name, never CRITICAL findings or leaked credentials.
 
 For public repos, keep the brief private by adding `/.ravenwatch.md` to `.gitignore`: a committed brief tells everyone which risks you've accepted.
-
-**A brief that was already in a repository you cloned** is used as it is, because it isn't part of the commits being reviewed. Read its accepted risks and checks before your first review, or run `/ravenwatch-lite:init-brief --update` to go through them.
 
 ## Setup
 
@@ -115,7 +113,7 @@ Then restart Claude Code (or run `/reload-plugins`).
 
 1. Commit as usual.
 2. Run `/ravenwatch-lite:review`.
-3. BLOCK → ask Claude to fix the findings, commit, then `/ravenwatch-lite:review` again.
+3. BLOCK → ask Claude to fix the findings, commit, then `/ravenwatch-lite:review --previous <report>` (Claude gives you the exact command).
 4. Push.
 
 ## Limits

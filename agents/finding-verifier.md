@@ -43,11 +43,11 @@ The questions above are written for bugs and vulnerabilities. For the other revi
 
 - **UX-** — Is the component or page actually rendered by a route (not dead or storybook-only)? Does the project already handle the "missing" state elsewhere (a global error boundary, a shared form component with built-in labels and errors, a CSS reset that restores focus outlines)? Contrast claims need the actual colour values. Downgrade findings that are taste rather than a user being blocked or misled.
 - **IMP-** — Grep yourself for the dependent the finding says breaks: does it exist, and was it really not updated? Is the API actually consumed outside this repo, or versioned? Is the migration really destructive on the data that exists, and is there a backfill or expand/contract step in another commit of the range?
-- **TEST-** — Grep the test directories for the behaviour by function name, route and key strings before accepting "untested"; integration and end-to-end tests count. For "weakened test" findings, check the per-commit changes (`git log -p <range>`) for the justification.
+- **TEST-** — Grep the test directories for the behaviour by function name, route and key strings before accepting "untested"; integration and end-to-end tests count. For "weakened test" findings, check the per-commit changes (`git log -p --diff-merges=first-parent <range>`) for the justification.
 - **DES-** — Does the project already use the criticised pattern consistently elsewhere? If yes, REJECT (consistency is not a defect). Is the claimed future cost concrete and likely? If it is taste, REJECT.
 
 - **PRIV-** — Trace the data yourself: does the field really reach the log, URL, third party or client? Is it redacted or hashed on the way? Does the brief's `## Data` section or a privacy page in the repo already cover the recipient? Downgrade findings for audiences the brief describes as "only me" or internal.
-- **CHK-** — Check results are facts produced by running the owner's own commands. Never reject a failing check. Only judge whether the failure is related to this change (compare with the per-commit changes, `git log -p <range>`); if it plainly predates the change, mark it ADJUSTED with `pre-existing: yes` but keep its severity.
+- **CHK-** — Check results are facts produced by running the owner's own commands. Never reject a failing check. Only judge whether the failure is related to this change (compare with the per-commit changes, `git log -p --diff-merges=first-parent <range>`); if it plainly predates the change, mark it ADJUSTED with `pre-existing: yes` but keep its severity.
 
 ## Accepted risks (project brief)
 
@@ -78,6 +78,16 @@ For each input finding, in the order received:
   reason: <one or two sentences with file:line evidence>
   fix: <only if you corrected the fix>
 ```
+
+If the prompt gives you HIGH or CRITICAL findings from an earlier review (a follow-up after a BLOCK), check each one against the code at HEAD, after the input findings:
+
+```
+previous:
+- <earlier id>: RESOLVED | STILL-PRESENT | UNCERTAIN
+  reason: <file:line evidence: what changed, or where the problem still is>
+```
+
+A finding is RESOLVED only if the code at the cited place (or wherever it moved) no longer has the problem; a deleted file or renamed function is not enough on its own.
 
 Then, if applicable:
 
