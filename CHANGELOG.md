@@ -8,9 +8,10 @@ First release of the lite edition, made from [ravenwatch](https://github.com/Nan
 - No scripts or hooks. The review finds the range with read-only `git` commands, and `infra-config-auditor` plus gitleaks (if installed) take the place of the scripted secret scan.
 - Left out: the push gate, `install-git-hook`, recorded verdicts, `--since-last`, brief approval by hash and the sandboxed check runner. The review asks you to confirm a changed brief and to pick which checks to run each time.
 - Skills declare only `Read`, `Grep` and `Glob` in `allowed-tools`, so Claude Code asks your permission for every command.
-- Without an upstream, the range is measured against the remote's default branch (as in the full edition), never against all remote refs, so commits fetched from a fork are still reviewed and a merged-in main isn't.
-- The brief is shown in full and confirmed on the first review in each Claude session and whenever it changes, including a brief that came with a clone or pull.
-- Reviewers read files with uncommitted changes at HEAD (`git show HEAD:<path>`); `--worktree` lists every untracked file and scans the working tree with gitleaks.
-- Per-commit and secret sweeps include merge commits (`--diff-merges=first-parent`).
-- Reports go to a private `mktemp -d` folder. `--previous <report>` has the verifier check earlier blocking findings.
+- Without an upstream, the range is measured against the default branch of the remote the branch pushes to; if that doesn't settle it, the review asks you. It never measures against all remote refs, so commits fetched from a fork are still reviewed and a merged-in main isn't.
+- The brief is shown in full and confirmed on the first review in each Claude session and whenever its bytes change (`hash-object --no-filters`), including a brief that came with a clone or pull.
+- Every agent, the verifier included, reads files with uncommitted changes at HEAD (`git show 'HEAD:<path>'`); `--worktree` lists every untracked file and runs gitleaks on just the changed files.
+- Per-commit and secret sweeps include what was changed while resolving merges (`--diff-merges=remerge`), without counting a merged-in branch's own changes.
+- Git commands run against the repository root, with refs and paths single-quoted.
+- Reports go to a private `mktemp -d` folder. `--previous <report>` has the verifier check earlier blocking findings that weren't accepted.
 - The brief template no longer suggests commands that download packages (`npx --no-install`); supply-chain-auditor checks a repository's `osv-scanner.toml`.
