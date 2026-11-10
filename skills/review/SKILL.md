@@ -192,7 +192,7 @@ Keep the chat summary short and scannable:
    - WARN → say it is reasonable to push, and offer to fix the MEDIUM items first.
    - PASS → say no blocking problems were found.
    - Full audit → findings are usually pre-existing, so offer to fix them most severe first, in small commits; each fix is then reviewed like any other change with `/ravenwatch-lite:review`.
-   - If there is no brief, or the owner declined it, say so in one line and suggest `/ravenwatch-lite:init-brief`.
+   - If there is no brief, or the owner declined it, say so in one line and suggest `/ravenwatch-lite:init-brief`. If the brief was refused because it is a symlink or not a regular file, say that instead, and tell the owner to remove `.ravenwatch.md` themselves first (and to be wary of the repository it came from).
 
 Never push on the owner's behalf as part of the review, whatever the verdict. The verdict is advice: this edition does not block `git push`, so for an enforced gate the owner should protect the branch on their git host (required status checks or reviews).
 
